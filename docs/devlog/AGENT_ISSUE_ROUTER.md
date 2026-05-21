@@ -33,10 +33,11 @@ Before implementation:
 2. Find the issue row in this routing table.
 3. Read `docs/devlog/issue_dependencies.yaml` for current status, blockers, allowed blocked-issue scope, and model recommendation.
 4. Read only the target issue section in `docs/devlog/ACTIVE_ISSUES.md` from its `## ISSUE-XXX` header until the next `## ISSUE-` header (or end of file). Do not read unrelated issue sections unless the target issue explicitly depends on them.
-5. Read the relevant module rule from the routing row and any additional module rules required by touched files.
-6. State the issue status, blockers, allowed scope, recommended model, and branch name before editing.
-7. Use branch `codex/issue-XXX-short-name`; do not implement issue work directly on `main`.
-8. Define allowed read files, allowed write files, and tests before editing.
+5. Summarize the issue and propose an implementation approach, then discuss it with the human and wait for explicit confirmation before proceeding further.
+6. Read the relevant module rule from the routing row and any additional module rules required by touched files.
+7. State the issue status, blockers, allowed scope, recommended model, and branch name before editing.
+8. Use branch `codex/issue-XXX-short-name`; do not implement issue work directly on `main`.
+9. Define allowed read files, allowed write files, and tests before editing.
 
 If the issue is blocked, implement only the explicitly allowed blocked-scope work.
 
