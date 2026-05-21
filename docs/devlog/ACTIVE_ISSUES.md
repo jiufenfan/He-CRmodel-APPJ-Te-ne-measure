@@ -1,6 +1,8 @@
 # Active Issues
 
-This file is the concrete open-problem list for the current v0.1.0 scaffold. Each issue must identify where the problem lives, why it matters, which module owns it, and how a future agent should validate changes.
+This is the human-readable detailed issue file for the current v0.1.0 scaffold. Each issue identifies where the problem lives, why it matters, which module owns it, and how a future agent should validate changes.
+
+Coding agents should first read `docs/devlog/AGENT_ISSUE_ROUTER.md`, then the target entry in `docs/devlog/issue_dependencies.yaml`. Read the detailed card in this file only for the target issue or when the compact agent files are insufficient.
 
 ## ISSUE-001 He I levels and spontaneous-radiation data must be built from NIST ASD (GitHub #1: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/1)
 

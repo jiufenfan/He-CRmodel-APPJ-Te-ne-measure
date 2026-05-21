@@ -1,0 +1,72 @@
+issues:
+  ISSUE-001:
+    github: 1
+    status: blocked
+    blocked_by: [ISSUE-008]
+    allowed_scope: nist_workflow_design_schema_drafts_no_canonical_promotion
+    recommended_model: GPT-5.5
+  ISSUE-002:
+    github: 2
+    status: blocked
+    blocked_by: [ISSUE-003]
+    allowed_scope: keep_disabled_document_missing_branch_rate
+    recommended_model: GPT-5.5_for_source_review
+  ISSUE-003:
+    github: 3
+    status: ready
+    blocked_by: [ISSUE-008_for_final_unit_fields]
+    allowed_scope: audit_metadata_design_and_fail_closed_validation
+    recommended_model: GPT-5.5_for_audit_gpt-5.3-codex_for_schema_tests
+  ISSUE-004:
+    github: 4
+    status: blocked
+    blocked_by: [ISSUE-008, future_roadmap_approval]
+    allowed_scope: source_acquisition_plan_only_no_external_data_import
+    recommended_model: GPT-5.5
+  ISSUE-005:
+    github: 5
+    status: blocked
+    blocked_by: [ISSUE-003]
+    allowed_scope: keep_disabled_document_ocr_gap
+    recommended_model: GPT-5.5_for_ocr_source_review
+  ISSUE-006:
+    github: 6
+    status: blocked
+    blocked_by: [ISSUE-001, ISSUE-003]
+    allowed_scope: linkage_design_only
+    recommended_model: gpt-5.3-codex_after_design_review
+  ISSUE-007:
+    github: 7
+    status: blocked
+    blocked_by: [ISSUE-003]
+    allowed_scope: keep_disabled_document_ambiguity
+    recommended_model: GPT-5.5_for_source_interpretation
+  ISSUE-008:
+    github: 8
+    status: ready
+    blocked_by: []
+    allowed_scope: full_work_allowed_within_v0_1_0_scope
+    recommended_model: GPT-5.5_for_convention_gpt-5.3-codex_for_tests
+  ISSUE-009:
+    github: 9
+    status: blocked
+    blocked_by: [ISSUE-001, ISSUE-002, ISSUE-003, ISSUE-004, ISSUE-005, ISSUE-006, ISSUE-007, ISSUE-008]
+    allowed_scope: interfaces_toy_tests_fail_closed_behavior_only
+    recommended_model: GPT-5.5_for_cr_design_gpt-5.3-codex_after_review
+edges:
+  - { from: ISSUE-008, to: ISSUE-001 }
+  - { from: ISSUE-008, to: ISSUE-003, note: final_unit_fields }
+  - { from: ISSUE-008, to: ISSUE-004 }
+  - { from: ISSUE-008, to: ISSUE-009 }
+  - { from: ISSUE-001, to: ISSUE-006 }
+  - { from: ISSUE-001, to: ISSUE-009 }
+  - { from: ISSUE-003, to: ISSUE-006 }
+  - { from: ISSUE-003, to: ISSUE-007 }
+  - { from: ISSUE-003, to: ISSUE-002 }
+  - { from: ISSUE-003, to: ISSUE-005 }
+  - { from: ISSUE-003, to: ISSUE-009 }
+  - { from: ISSUE-006, to: ISSUE-009 }
+  - { from: ISSUE-007, to: ISSUE-009 }
+  - { from: ISSUE-002, to: ISSUE-009 }
+  - { from: ISSUE-005, to: ISSUE-009 }
+  - { from: ISSUE-004, to: ISSUE-009 }

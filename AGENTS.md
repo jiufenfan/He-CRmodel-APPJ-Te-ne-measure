@@ -26,9 +26,9 @@ If a requested change expands scope, update `docs/devlog/DECISIONS.md` and ask w
 
 ## Development Feedback Workflow
 
-Before changing code, read `.agents/ROUTER.md`, the relevant module rule, `docs/devlog/HANDOFF.md`, and `docs/devlog/ACTIVE_ISSUES.md`.
+Before changing code, read `.agents/ROUTER.md`, the relevant module rule, and `docs/devlog/HANDOFF.md`.
 
-Before working on a GitHub issue or multi-agent task, also read `docs/devlog/ISSUE_DEPENDENCY_GRAPH.md` and verify that the issue is not blocked.
+Before working on a GitHub issue or multi-agent task, also read `docs/devlog/AGENT_ISSUE_ROUTER.md` and `docs/devlog/issue_dependencies.yaml`. Read `docs/devlog/ACTIVE_ISSUES.md` only for the target issue detail, and read `docs/devlog/ISSUE_DEPENDENCY_GRAPH.md` only when the compact dependency file is insufficient.
 
 If fixing an error, also read `docs/devlog/ERROR_LOG.md`.
 
@@ -50,6 +50,8 @@ This includes:
 - `.agents/ROUTER.md`
 - `.agents/rules/`
 - `docs/devlog/ISSUE_DEPENDENCY_GRAPH.md`
+- `docs/devlog/AGENT_ISSUE_ROUTER.md`
+- `docs/devlog/issue_dependencies.yaml`
 
 These files may be changed only when:
 
@@ -58,9 +60,9 @@ These files may be changed only when:
 
 If an agent discovers a rule gap while working on another issue, it must report the gap and ask for a separate rule update instead of modifying governance files inside the current issue branch.
 
-Issue-work mode requires identifying the issue, checking `docs/devlog/ISSUE_DEPENDENCY_GRAPH.md`, stating dependency status, recommending the model, defining the branch name, and defining allowed read/write file scope before implementation.
+Issue-work mode requires identifying the issue, checking `docs/devlog/AGENT_ISSUE_ROUTER.md` and `docs/devlog/issue_dependencies.yaml`, stating dependency status, recommending the model, defining the branch name, and defining allowed read/write file scope before implementation.
 
-Before starting issue work, an agent must check `docs/devlog/ISSUE_DEPENDENCY_GRAPH.md`. If the issue is blocked, the agent may only work on explicitly allowed documentation, schema, placeholder, test, or fail-closed behavior.
+Before starting issue work, an agent must check `docs/devlog/issue_dependencies.yaml`. If the issue is blocked, the agent may only work on explicitly allowed documentation, schema, placeholder, test, or fail-closed behavior.
 
 Do not start solver or quantitative model work before required data, unit, and provenance issues are unblocked.
 

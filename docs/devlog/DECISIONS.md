@@ -14,3 +14,8 @@ Reason: four target He lines cannot constrain these densities in the initial mod
 
 Decision: data is split into `data/raw_sources/`, `data/staged/`, and `data/canonical/`.
 Reason: raw source snapshots, extracted-but-unverified records, and human-reviewed records need different trust levels and loading behavior.
+
+## DEC-004 Separate human and agent issue views
+
+Decision: `docs/devlog/ISSUE_DEPENDENCY_GRAPH.md` and `docs/devlog/ACTIVE_ISSUES.md` remain human-readable detailed references, while agents start from `docs/devlog/AGENT_ISSUE_ROUTER.md` and `docs/devlog/issue_dependencies.yaml`.
+Reason: issue governance and scientific constraints must remain complete for human review, but routine agent work should load a minimal route file and a compact dependency file first to reduce context use without losing semantic coverage.

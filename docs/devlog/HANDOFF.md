@@ -16,9 +16,10 @@ Rule: do not add unverified external data in v0.1.0. Future versions are intenti
 2. `ROADMAP.md`
 3. `.agents/ROUTER.md`
 4. Relevant module rule under `.agents/rules/`
-5. `docs/devlog/ACTIVE_ISSUES.md`
-6. `docs/devlog/DECISIONS.md`
-7. If changing scientific claims or reports, also read `docs/devlog/KNOWN_LIMITATIONS.md`
+5. For issue work, `docs/devlog/AGENT_ISSUE_ROUTER.md`
+6. For issue work, `docs/devlog/issue_dependencies.yaml`
+7. `docs/devlog/DECISIONS.md`
+8. If changing scientific claims or reports, also read `docs/devlog/KNOWN_LIMITATIONS.md`
 
 ## Current Project State
 
@@ -70,7 +71,11 @@ Why:
 
 ## Open Issues To Check First
 
-Detailed issue cards are in `docs/devlog/ACTIVE_ISSUES.md`.
+Agent issue router is in `docs/devlog/AGENT_ISSUE_ROUTER.md`.
+
+Compact dependency status is in `docs/devlog/issue_dependencies.yaml`.
+
+Detailed human-readable issue cards are in `docs/devlog/ACTIVE_ISSUES.md`.
 
 Visual issue dashboard:
 
@@ -97,7 +102,7 @@ High-priority issues:
 - Keep internal `Te` as eV and `Tg` as K unless a future unit/species convention document defines explicit conversion handling.
 - Do not evaluate rate expressions with ambiguous `Te` units.
 - Do not claim the solver builds full CR source/loss equations; currently it only has an AI-loss sanity helper.
-- If a finding affects future work, update `docs/devlog/ACTIVE_ISSUES.md`.
+- If a finding affects future work, update `docs/devlog/AGENT_ISSUE_ROUTER.md`, `docs/devlog/issue_dependencies.yaml`, and `docs/devlog/ACTIVE_ISSUES.md` as needed.
 
 ## Recommended Next Task
 

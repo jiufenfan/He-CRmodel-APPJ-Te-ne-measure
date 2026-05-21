@@ -1,6 +1,8 @@
 # Issue Dependency Graph
 
-This file defines how multiple agents may work on project issues without bypassing scientific review, data provenance, or Git history.
+This is the human-readable dependency graph for project issues. It explains how multiple agents may work on project issues without bypassing scientific review, data provenance, or Git history.
+
+Coding agents should first read `docs/devlog/AGENT_ISSUE_ROUTER.md` and `docs/devlog/issue_dependencies.yaml`. Read this file when human-level context, the Mermaid graph, or the full governance rationale is needed.
 
 It is a governance file. It does not resolve scientific issues by itself.
 
@@ -51,6 +53,14 @@ graph TD
   I4 --> I9
 ```
 
+## Structured Source
+
+The compact machine-readable source for dependency status and edges lives in:
+
+- `docs/devlog/issue_dependencies.yaml`
+
+The human-readable graph and registry below should stay synchronized with that file.
+
 ## Issue Registry
 
 | Issue | GitHub | Status | Blocked by | Owner agent | Recommended model | Allowed work before dependencies clear |
@@ -67,9 +77,9 @@ graph TD
 
 ## Agent Start Gate
 
-Before an agent starts work on an issue, it must:
+Before an agent starts work on an issue, it must normally use the compact router and dependency files. The full human protocol is:
 
-1. Read `AGENTS.md`, `ROADMAP.md`, `.agents/ROUTER.md`, this file, `docs/devlog/ACTIVE_ISSUES.md`, and the relevant module rule.
+1. Read `AGENTS.md`, `ROADMAP.md`, `.agents/ROUTER.md`, `docs/devlog/AGENT_ISSUE_ROUTER.md`, `docs/devlog/issue_dependencies.yaml`, and the relevant module rule.
 2. Check the issue row in the registry.
 3. Confirm all `blocked_by` issues are `done`, unless the planned work is explicitly allowed in the final column.
 4. Create or use a dedicated branch named `codex/issue-XXX-short-name`.
@@ -84,7 +94,7 @@ When the user asks to solve, fix, implement, continue, review, or work on a GitH
 Issue-work mode must happen before implementation. The agent must:
 
 1. Identify the local issue ID and GitHub issue number.
-2. Read `AGENTS.md`, `ROADMAP.md`, `.agents/ROUTER.md`, this file, `docs/devlog/ACTIVE_ISSUES.md`, and the relevant module rule.
+2. Read `AGENTS.md`, `ROADMAP.md`, `.agents/ROUTER.md`, `docs/devlog/AGENT_ISSUE_ROUTER.md`, `docs/devlog/issue_dependencies.yaml`, and the relevant module rule.
 3. Check the issue registry and dependency graph.
 4. State whether the issue is `ready`, `blocked`, `in_progress`, `needs_human_review`, or `done`.
 5. If blocked, state the blocking issues and restrict work to the allowed blocked-issue scope.
@@ -123,6 +133,8 @@ Governance and rule files are excluded from default issue implementation write s
 - `.agents/ROUTER.md`
 - `.agents/rules/`
 - `docs/devlog/ISSUE_DEPENDENCY_GRAPH.md`
+- `docs/devlog/AGENT_ISSUE_ROUTER.md`
+- `docs/devlog/issue_dependencies.yaml`
 
 An agent may modify these files only when:
 
@@ -137,7 +149,7 @@ Example scoped task:
 
 ```text
 Work only on GitHub issue #9 on branch codex/issue-009-solver-assembly.
-Read AGENTS.md, README.md, docs/devlog/ISSUE_DEPENDENCY_GRAPH.md,
+Read AGENTS.md, README.md, docs/devlog/AGENT_ISSUE_ROUTER.md,
 .agents/rules/solver-agent.md, src/he_cr_model/solver.py, and tests/test_solver.py.
 Modify only src/he_cr_model/solver.py and tests/test_solver.py.
 Use this pytest failure as the starting point: <paste failure>.
@@ -154,7 +166,7 @@ Do not inspect unrelated modules unless these files are insufficient; if so, rep
 - Pull requests must reference the GitHub issue with `Refs #N` or `Closes #N`.
 - Scientific data changes require human review before merge.
 - Promotion from `data/raw_sources/` or `data/staged/` to `data/canonical/` requires explicit human review evidence in the PR or devlog.
-- If two active branches need the same file, pause one branch and update this dependency graph or `HANDOFF.md` before continuing.
+- If two active branches need the same file, pause one branch and update `docs/devlog/AGENT_ISSUE_ROUTER.md`, `docs/devlog/issue_dependencies.yaml`, this dependency graph, or `HANDOFF.md` before continuing.
 
 ## Data Protection Rules
 
@@ -175,7 +187,7 @@ Update this file whenever:
 - a human review promotes data to canonical;
 - model selection guidance changes for a class of tasks.
 
-Every dependency update should also update `docs/devlog/ACTIVE_ISSUES.md` when it changes an issue's status, location, or resolution criteria.
+Every dependency update should also update `docs/devlog/issue_dependencies.yaml`, `docs/devlog/AGENT_ISSUE_ROUTER.md`, and `docs/devlog/ACTIVE_ISSUES.md` when it changes an issue's status, location, or resolution criteria.
 
 ## Model Selection Rule
 
