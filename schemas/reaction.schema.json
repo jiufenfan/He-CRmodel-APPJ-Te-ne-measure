@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "required": [
+    "reaction_id",
+    "equation",
+    "process",
+    "rate_expression",
+    "unit",
+    "reaction_order",
+    "source",
+    "doi_or_url",
+    "table_or_equation",
+    "page_or_figure",
+    "valid_range",
+    "review_status",
+    "enabled_by_default",
+    "notes"
+  ],
+  "properties": {
+    "reaction_id": {"type": "string"},
+    "equation": {"type": "string"},
+    "process": {"type": "string"},
+    "original_reaction_no": {"type": ["integer", "null"]},
+    "channel_id": {"type": ["string", "null"]},
+    "target_level_id": {"type": ["string", "null"]},
+    "rate": {"type": ["number", "null"]},
+    "rate_expression": {"type": "string"},
+    "unit": {"type": "string"},
+    "reaction_order": {"type": "integer"},
+    "source": {"type": "string"},
+    "doi_or_url": {"type": "string"},
+    "table_or_equation": {"type": "string"},
+    "page_or_figure": {"type": "string"},
+    "valid_range": {"type": "string"},
+    "review_status": {"type": "string"},
+    "enabled_by_default": {"type": "boolean"},
+    "notes": {"type": "string"}
+  }
+}

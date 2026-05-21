@@ -1,0 +1,64 @@
+{
+  "records": [
+    {
+      "line_id": "HE_587_6",
+      "wavelength_nm": 587.6,
+      "upper_level_id": "3_3D",
+      "lower_level_id": "2_3P",
+      "transition": "3^3D -> 2^3P",
+      "einstein_a_s": null,
+      "source": "Lee 2020",
+      "doi_or_url": "https://doi.org/10.1063/5.0009768",
+      "table_or_equation": "Section IV text",
+      "page_or_figure": "Fig. 4 discussion",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Wavelength and transition are from Lee 2020; Einstein A requires approved source review."
+    },
+    {
+      "line_id": "HE_667_8",
+      "wavelength_nm": 667.8,
+      "upper_level_id": "3_1D",
+      "lower_level_id": "2_1P",
+      "transition": "3^1D -> 2^1P",
+      "einstein_a_s": null,
+      "source": "Lee 2020",
+      "doi_or_url": "https://doi.org/10.1063/5.0009768",
+      "table_or_equation": "Section IV text",
+      "page_or_figure": "Fig. 4 discussion",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Wavelength and transition are from Lee 2020; Einstein A requires approved source review."
+    },
+    {
+      "line_id": "HE_706_5",
+      "wavelength_nm": 706.5,
+      "upper_level_id": "3_3S",
+      "lower_level_id": "2_3P",
+      "transition": "3^3S -> 2^3P",
+      "einstein_a_s": null,
+      "source": "Lee 2020",
+      "doi_or_url": "https://doi.org/10.1063/5.0009768",
+      "table_or_equation": "Section IV text",
+      "page_or_figure": "Fig. 4 and Fig. 5 discussion",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Wavelength and transition are from Lee 2020; Einstein A requires approved source review."
+    },
+    {
+      "line_id": "HE_728_1",
+      "wavelength_nm": 728.1,
+      "upper_level_id": "3_1S",
+      "lower_level_id": "2_1P",
+      "transition": "3^1S -> 2^1P",
+      "einstein_a_s": null,
+      "source": "Lee 2020",
+      "doi_or_url": "https://doi.org/10.1063/5.0009768",
+      "table_or_equation": "Section IV text",
+      "page_or_figure": "Fig. 4 and Fig. 5 discussion",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Wavelength and transition are from Lee 2020; Einstein A requires approved source review."
+    }
+  ]
+}

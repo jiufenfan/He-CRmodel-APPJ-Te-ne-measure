@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+outputs/
+Lee 等 - 2020 - Study on helium atmospheric pressure plasma jet using collisional-radiative model.pdf-a5db343d-76d4-4fcc-81aa-22f7b072edbb/

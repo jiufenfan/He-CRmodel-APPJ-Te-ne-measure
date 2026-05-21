@@ -1,0 +1,14 @@
+{
+  "run_id": "lee2020_minimal_scan_v0_1",
+  "model": {
+    "level_cutoff_n": 5,
+    "gas_temperature_K": 310.0,
+    "ground_density_cm3": 2.45e19,
+    "electron_temperature_eV": 2.0,
+    "electron_density_scan_cm3": [1.0e8, 1.0e12, 1.0e17]
+  },
+  "data_policy": {
+    "allow_unverified_data": false,
+    "fail_closed_on_missing_source_terms": true
+  }
+}

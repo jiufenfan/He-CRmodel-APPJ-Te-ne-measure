@@ -1,0 +1,40 @@
+{
+  "records": [
+    {
+      "item_id": "EXT_RALCHENKO_2008_ELECTRON_COLLISION",
+      "topic": "He electron-impact excitation and ionization data",
+      "source": "Ralchenko et al. 2008",
+      "doi_or_url": "TODO_SOURCE",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Future-version item. Do not import in v0.1.0."
+    },
+    {
+      "item_id": "EXT_NIST_ASD_HEI_LEVELS",
+      "topic": "He I level energies and term designations for canonical level definitions",
+      "source": "NIST ASD",
+      "doi_or_url": "https://www.nist.gov/pml/atomic-spectra-database",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Required to replace or back structural levels.py placeholders with canonical He I level data. Store raw exports under data/raw_sources/nist/ before staging."
+    },
+    {
+      "item_id": "EXT_NIST_ASD_HEI_TRANSITION_PROBABILITIES",
+      "topic": "He I wavelengths and Einstein A coefficients for spontaneous radiation He(p) -> He(q) + hv",
+      "source": "NIST ASD",
+      "doi_or_url": "https://www.nist.gov/pml/atomic-spectra-database",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Required for Lee Table I reaction 3 and target-line intensity calculation. Store raw exports under data/raw_sources/nist/ before staging."
+    },
+    {
+      "item_id": "EXT_BELMONTE_SANTOS_L_EXCHANGE",
+      "topic": "Atmospheric-pressure He l-exchange rates",
+      "source": "Belmonte 2007 / Santos 2014",
+      "doi_or_url": "TODO_SOURCE",
+      "review_status": "needs_primary_source_check",
+      "enabled_by_default": false,
+      "notes": "Future-version item. Do not estimate in v0.1.0."
+    }
+  ]
+}

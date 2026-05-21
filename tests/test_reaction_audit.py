@@ -1,0 +1,35 @@
+from he_cr_model.data_loader import load_reaction_records
+from he_cr_model.reactions import load_reactions
+from he_cr_model.validation import validate_reaction_records
+
+
+def test_unverified_data_is_disabled_by_default() -> None:
+    for reaction in load_reactions():
+        if reaction.review_status != "verified_from_lee2020":
+            assert not reaction.enabled_by_default
+            assert not reaction.is_enabled
+
+
+def test_enabled_data_is_verified() -> None:
+    enabled = [reaction for reaction in load_reactions() if reaction.is_enabled]
+    assert enabled
+    assert all(reaction.review_status == "verified_from_lee2020" for reaction in enabled)
+
+
+def test_unit_validation_flags_ocr_placeholder() -> None:
+    issues = validate_reaction_records(load_reaction_records())
+    messages = {(issue.item_id, issue.message) for issue in issues}
+    assert ("LEE2020_T1_R23_OCR_CHECK", "unit 'MISSING' inconsistent with order 2") in messages
+    assert ("LEE2020_T1_R23_OCR_CHECK", "OCR check required") in messages
+
+
+def test_lee_table_i_reaction_20_has_both_channels() -> None:
+    records = load_reaction_records()
+    reaction_20 = [record for record in records if record.get("original_reaction_no") == 20]
+    equations = {record["equation"] for record in reaction_20}
+    assert "He2+ + e- -> 2He" in equations
+    assert "He2+ + e- -> He + He(p)" in equations
+    assert all(record.get("channel_id") for record in reaction_20)
+    excited = next(record for record in reaction_20 if record["equation"] == "He2+ + e- -> He + He(p)")
+    assert excited["review_status"] == "needs_primary_source_check"
+    assert not excited["enabled_by_default"]

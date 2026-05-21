@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "required": ["run_id", "model", "data_policy"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "model": {"type": "object"},
+    "data_policy": {"type": "object"}
+  }
+}
