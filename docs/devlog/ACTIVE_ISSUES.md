@@ -2,7 +2,7 @@
 
 This file is the concrete open-problem list for the current v0.1.0 scaffold. Each issue must identify where the problem lives, why it matters, which module owns it, and how a future agent should validate changes.
 
-## ISSUE-001 He I levels and spontaneous-radiation data must be built from NIST ASD
+## ISSUE-001 He I levels and spontaneous-radiation data must be built from NIST ASD (GitHub #1: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/1)
 
 Status: open
 
@@ -72,7 +72,7 @@ Resolution criteria:
 - Human promotes reviewed records to `data/canonical/`.
 - Only canonical reviewed transition records may enable spectrum intensity calculations or Lee reaction 3 spontaneous-radiation channels.
 
-## ISSUE-002 Lee Table I reaction 20 excited-state branch needs primary-source review
+## ISSUE-002 Lee Table I reaction 20 excited-state branch needs primary-source review (GitHub #2: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/2)
 
 Status: open
 
@@ -123,7 +123,7 @@ Resolution criteria:
 
 - Human review determines whether Lee 2020, Royal/Orel, or another cited source provides a branch-resolved rate or cross-section workflow.
 
-## ISSUE-003 Lee Table I multi-channel reaction completeness not fully audited
+## ISSUE-003 Lee Table I multi-channel reaction completeness not fully audited (GitHub #3: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/3)
 
 Status: open
 
@@ -180,7 +180,7 @@ Follow-up requirement:
 
 - Record-level audit status is needed. A future data update should add fields such as `audit_status`, `audited_by`, `audit_date`, and `audit_notes` so corrected records are distinguishable from unaudited staged records.
 
-## ISSUE-006 Lee Table I reaction 6 must expand to Table II AI channels
+## ISSUE-006 Lee Table I reaction 6 must expand to Table II AI channels (GitHub #6: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/6)
 
 Status: open
 
@@ -211,7 +211,7 @@ Resolution criteria:
 - Add explicit linkage metadata from `LEE2020_T1_R06_REF` to Table II AI records.
 - Ensure every concrete AI channel has reactants/products and target level mapping suitable for species balance assembly.
 
-## ISSUE-007 Lee Table I reaction 9 unit ambiguity
+## ISSUE-007 Lee Table I reaction 9 unit ambiguity (GitHub #7: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/7)
 
 Status: open
 
@@ -238,7 +238,7 @@ Resolution criteria:
 
 - Human verifies reaction molecularity and units from Lee original table and reference 28.
 
-## ISSUE-008 Project-wide species, variable, and unit convention is missing
+## ISSUE-008 Project-wide species, variable, and unit convention is missing (GitHub #8: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/8)
 
 Status: open
 
@@ -277,7 +277,7 @@ Resolution criteria:
 - Add schema fields for expression variable units or per-record unit overrides.
 - Add tests that reject ambiguous `Te` use in enabled rate expressions.
 
-## ISSUE-009 Reaction stoichiometry parsing and CR source/loss assembly is not implemented
+## ISSUE-009 Reaction stoichiometry parsing and CR source/loss assembly is not implemented (GitHub #9: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/9)
 
 Status: open
 
@@ -314,7 +314,7 @@ Resolution criteria:
 - Build a source/loss assembler that can compute contributions for each species.
 - Add tests using simple reactions to confirm production/consumption signs and stoichiometric multipliers.
 
-## ISSUE-004 Electron-impact source data is missing from v0.1.0
+## ISSUE-004 Electron-impact source data is missing from v0.1.0 (GitHub #4: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/4)
 
 Status: open
 
@@ -358,7 +358,7 @@ Resolution criteria:
 
 - Future roadmap approval allows importing verified electron collision data with provenance.
 
-## ISSUE-005 Lee Table I reaction 23 OCR/units unreliable
+## ISSUE-005 Lee Table I reaction 23 OCR/units unreliable (GitHub #5: https://github.com/jiufenfan/He-CRmodel-APPJ-Te-ne-measure/issues/5)
 
 Status: open
 
