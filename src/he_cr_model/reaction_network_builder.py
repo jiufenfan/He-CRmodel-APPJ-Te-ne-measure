@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .data_loader import load_table_i_reference_records
+from .data_loader import load_nist_line_records_if_present, load_spectral_line_records, load_table_i_reference_records
 from .network_interfaces import ConcreteChannel, ReactionTemplate, StoichTerm
 from .validation import ValidationIssue, build_solver_ready_channels
 
@@ -127,6 +127,54 @@ def _channel_from_template(template: ReactionTemplate, equation: str) -> Concret
     )
 
 
+def _extract_nist_energies(line_record: dict) -> tuple[float | None, float | None]:
+    normalized = line_record.get("normalized")
+    if isinstance(normalized, dict):
+        upper = normalized.get("upper_level_energy_eV")
+        lower = normalized.get("lower_level_energy_eV")
+        if isinstance(upper, (int, float)) and isinstance(lower, (int, float)):
+            return float(upper), float(lower)
+    return None, None
+
+
+def _expand_spontaneous_radiation_from_lines(template: ReactionTemplate) -> list[ConcreteChannel]:
+    line_records = load_nist_line_records_if_present()
+    using_nist_lines = bool(line_records)
+    if not using_nist_lines:
+        line_records = load_spectral_line_records()
+
+    expanded: list[ConcreteChannel] = []
+    for line in line_records:
+        upper_id = str(line.get("upper_level_id", "")).strip()
+        lower_id = str(line.get("lower_level_id", "")).strip()
+        if not upper_id or not lower_id:
+            continue
+
+        upper_energy, lower_energy = _extract_nist_energies(line)
+        rate_payload_ref: str | None = None
+        if line.get("einstein_a_s") not in (None, ""):
+            rate_payload_ref = f"Aki_{line.get('line_id', 'UNKNOWN')}"
+
+        expanded.append(
+            ConcreteChannel(
+                channel_id=f"{template.reaction_id}_{line.get('line_id', 'LINE')}",
+                template_id=template.template_id,
+                family="spontaneous_radiation",
+                reactants=(StoichTerm(species_id=upper_id, nu=1),),
+                products=(StoichTerm(species_id=lower_id, nu=1), StoichTerm(species_id="hv", nu=1)),
+                directionality="upper_to_lower",
+                rate_law="Aki*n_upper" if rate_payload_ref else "MISSING",
+                rate_origin="nist_lines" if using_nist_lines else "spectral_lines_seed",
+                review_status=str(line.get("review_status", template.review_status)),
+                enabled_by_default=bool(line.get("enabled_by_default", False)),
+                upper_level_energy_eV=upper_energy,
+                lower_level_energy_eV=lower_energy,
+                rate_payload_ref=rate_payload_ref,
+            )
+        )
+    return expanded
+
+
 def build_network_from_table_i_reference(
     *,
     species_ids: set[str],
@@ -134,7 +182,13 @@ def build_network_from_table_i_reference(
 ) -> NetworkBuildResult:
     records = load_table_i_reference_records()
     templates = tuple(_template_from_record(record) for record in records)
-    channels = tuple(_channel_from_template(template, str(record["equation"])) for template, record in zip(templates, records))
+    channels_list: list[ConcreteChannel] = []
+    for template, record in zip(templates, records):
+        if template.reaction_family == "spontaneous_radiation":
+            channels_list.extend(_expand_spontaneous_radiation_from_lines(template))
+            continue
+        channels_list.append(_channel_from_template(template, str(record["equation"])))
+    channels = tuple(channels_list)
     solver_ready, issues = build_solver_ready_channels(channels, species_ids=species_ids, payload_ids=payload_ids)
     return NetworkBuildResult(
         templates=templates,

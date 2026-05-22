@@ -38,3 +38,11 @@ def load_spectral_line_records(base_dir: Path | None = None) -> list[dict[str, A
 def load_table_i_reference_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
     root = base_dir or staged_data_dir()
     return load_json_records(root / "lee2020_table_i_reference.json")
+
+
+def load_nist_line_records_if_present(base_dir: Path | None = None) -> list[dict[str, Any]]:
+    root = base_dir or staged_data_dir()
+    nist_lines_path = root / "nist_hei_lines.json"
+    if nist_lines_path.exists():
+        return load_json_records(nist_lines_path)
+    return []
