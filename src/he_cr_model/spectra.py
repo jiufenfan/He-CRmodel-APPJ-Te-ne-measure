@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .data_loader import load_spectral_line_records
+from .validation import is_approved_verified_status
 
 
 @dataclass(frozen=True)
@@ -19,7 +20,7 @@ class SpectralLine:
 
     @property
     def has_verified_intensity_data(self) -> bool:
-        return self.enabled_by_default and self.review_status == "verified_from_lee2020" and self.einstein_a_s is not None
+        return self.enabled_by_default and is_approved_verified_status(self.review_status) and self.einstein_a_s is not None
 
 
 def line_from_record(record: dict) -> SpectralLine:

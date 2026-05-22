@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from .data_loader import load_reaction_records
+from .validation import is_approved_verified_status
 
 
 @dataclass(frozen=True)
@@ -26,7 +27,7 @@ class Reaction:
 
     @property
     def is_verified(self) -> bool:
-        return self.review_status == "verified_from_lee2020"
+        return is_approved_verified_status(self.review_status)
 
     @property
     def is_enabled(self) -> bool:

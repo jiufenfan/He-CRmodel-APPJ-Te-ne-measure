@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "required": [
+    "level_id",
+    "species",
+    "n",
+    "spin_multiplicity",
+    "orbital",
+    "label",
+    "energy_eV",
+    "energy_reference",
+    "statistical_weight_g",
+    "source",
+    "doi_or_url",
+    "table_or_equation",
+    "page_or_figure",
+    "review_status",
+    "enabled_by_default",
+    "notes"
+  ],
+  "properties": {
+    "level_id": { "type": "string" },
+    "species": { "type": "string" },
+    "n": { "type": "integer", "minimum": 1 },
+    "spin_multiplicity": { "type": "integer", "enum": [1, 3] },
+    "orbital": { "type": "string" },
+    "label": { "type": "string" },
+    "energy_eV": { "type": ["number", "null"] },
+    "energy_reference": { "type": "string" },
+    "statistical_weight_g": { "type": ["integer", "null"] },
+    "source": { "type": "string" },
+    "doi_or_url": { "type": "string" },
+    "table_or_equation": { "type": "string" },
+    "page_or_figure": { "type": "string" },
+    "review_status": { "type": "string" },
+    "enabled_by_default": { "type": "boolean" },
+    "notes": { "type": "string" }
+  }
+}
+

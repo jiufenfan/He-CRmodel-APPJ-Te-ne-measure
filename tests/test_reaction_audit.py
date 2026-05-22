@@ -1,6 +1,6 @@
 from he_cr_model.data_loader import load_reaction_records
-from he_cr_model.reactions import load_reactions
-from he_cr_model.validation import validate_reaction_records
+from he_cr_model.reactions import Reaction, load_reactions
+from he_cr_model.validation import is_approved_verified_status, validate_reaction_records
 
 
 def test_unverified_data_is_disabled_by_default() -> None:
@@ -13,7 +13,7 @@ def test_unverified_data_is_disabled_by_default() -> None:
 def test_enabled_data_is_verified() -> None:
     enabled = [reaction for reaction in load_reactions() if reaction.is_enabled]
     assert enabled
-    assert all(reaction.review_status == "verified_from_lee2020" for reaction in enabled)
+    assert all(is_approved_verified_status(reaction.review_status) for reaction in enabled)
 
 
 def test_unit_validation_flags_ocr_placeholder() -> None:
@@ -33,3 +33,26 @@ def test_lee_table_i_reaction_20_has_both_channels() -> None:
     excited = next(record for record in reaction_20 if record["equation"] == "He2+ + e- -> He + He(p)")
     assert excited["review_status"] == "needs_primary_source_check"
     assert not excited["enabled_by_default"]
+
+
+def test_nist_verified_status_is_treated_as_verified() -> None:
+    reaction = Reaction(
+        reaction_id="TEST_NIST_RADIATION",
+        equation="He(p) -> He(q) + hv",
+        process="spontaneous_radiation",
+        target_level_id="3_3D",
+        rate=1.0,
+        rate_expression="Aki",
+        unit="1/s",
+        reaction_order=2,
+        source="synthetic",
+        doi_or_url="synthetic",
+        table_or_equation="synthetic",
+        page_or_figure="synthetic",
+        valid_range="synthetic",
+        review_status="verified_from_nist_asd",
+        enabled_by_default=True,
+        notes="synthetic test record",
+    )
+    assert reaction.is_verified
+    assert reaction.is_enabled

@@ -38,3 +38,18 @@ def load_spectral_line_records(base_dir: Path | None = None) -> list[dict[str, A
 def load_table_i_reference_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
     root = base_dir or staged_data_dir()
     return load_json_records(root / "lee2020_table_i_reference.json")
+
+
+def load_nist_hei_levels_staged_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
+    root = base_dir or staged_data_dir()
+    return load_json_records(root / "nist_hei_levels.json")
+
+
+def load_nist_hei_lines_staged_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
+    root = base_dir or staged_data_dir()
+    return load_json_records(root / "nist_hei_lines.json")
+
+
+def load_nist_hei_join_report_staged_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
+    root = base_dir or staged_data_dir()
+    return load_json_records(root / "nist_hei_join_report.json")

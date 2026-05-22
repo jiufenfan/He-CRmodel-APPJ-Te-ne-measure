@@ -1,0 +1,39 @@
+{
+  "type": "object",
+  "required": [
+    "line_id",
+    "species",
+    "wavelength_nm",
+    "wavelength_source",
+    "upper_level_id",
+    "lower_level_id",
+    "transition",
+    "einstein_a_s",
+    "source",
+    "doi_or_url",
+    "table_or_equation",
+    "page_or_figure",
+    "review_status",
+    "enabled_by_default",
+    "notes"
+  ],
+  "properties": {
+    "line_id": { "type": "string" },
+    "species": { "type": "string" },
+    "wavelength_nm": { "type": "number" },
+    "wavelength_source": { "type": "string" },
+    "upper_level_id": { "type": "string" },
+    "lower_level_id": { "type": "string" },
+    "transition": { "type": "string" },
+    "einstein_a_s": { "type": ["number", "null"] },
+    "accuracy": { "type": ["string", "null"] },
+    "source": { "type": "string" },
+    "doi_or_url": { "type": "string" },
+    "table_or_equation": { "type": "string" },
+    "page_or_figure": { "type": "string" },
+    "review_status": { "type": "string" },
+    "enabled_by_default": { "type": "boolean" },
+    "notes": { "type": "string" }
+  }
+}
+

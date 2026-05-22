@@ -6,9 +6,17 @@ from typing import Iterable
 
 VALID_REVIEW_STATUSES = {
     "verified_from_lee2020",
+    "verified_from_nist_asd",
+    "verified_from_primary_source",
     "needs_primary_source_check",
     "needs_digitization",
     "estimated_placeholder",
+}
+
+APPROVED_VERIFIED_REVIEW_STATUSES = {
+    "verified_from_lee2020",
+    "verified_from_nist_asd",
+    "verified_from_primary_source",
 }
 
 UNIT_BY_ORDER = {
@@ -22,6 +30,10 @@ class ValidationIssue:
     item_id: str
     severity: str
     message: str
+
+
+def is_approved_verified_status(review_status: str) -> bool:
+    return review_status in APPROVED_VERIFIED_REVIEW_STATUSES
 
 
 def validate_reaction_record(record: dict) -> list[ValidationIssue]:
@@ -54,7 +66,7 @@ def validate_reaction_record(record: dict) -> list[ValidationIssue]:
     if review_status not in VALID_REVIEW_STATUSES:
         issues.append(ValidationIssue(item_id, "error", f"unknown review_status {review_status!r}"))
 
-    if record.get("enabled_by_default") and review_status != "verified_from_lee2020":
+    if record.get("enabled_by_default") and not is_approved_verified_status(str(review_status)):
         issues.append(ValidationIssue(item_id, "error", "enabled unverified data"))
 
     table_ref = str(record.get("table_or_equation", ""))
