@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import argparse
 import sys
+from pathlib import Path
 
 from .data_loader import load_reaction_records
 from .levels import LEVELS_N5
 from .reactions import load_reactions
+from .reaction_network_builder import build_network_from_table_i_reference, export_network_build_result
 from .solver import fail_closed_scan_message
 from .spectra import load_spectral_lines, missing_verified_transition_data
 from .validation import validate_reaction_records
@@ -62,6 +64,21 @@ def cmd_scan(_: argparse.Namespace) -> int:
     return 2
 
 
+def cmd_build_network(args: argparse.Namespace) -> int:
+    output_path = Path(args.output)
+    result = build_network_from_table_i_reference()
+    export_network_build_result(output_path, result)
+    print(
+        "network_build_exported "
+        f"output={output_path} "
+        f"templates={len(result.templates)} "
+        f"network_all={len(result.network_all)} "
+        f"network_solver_ready={len(result.network_solver_ready)} "
+        f"issues={len(result.validation_issues)}"
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="he-cr")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -81,6 +98,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     scan = subparsers.add_parser("scan")
     scan.set_defaults(func=cmd_scan)
+
+    build_network = subparsers.add_parser("build-network")
+    build_network.add_argument(
+        "--output",
+        default=str(Path("data") / "staged" / "network_build.json"),
+        help="path to exported network build audit json",
+    )
+    build_network.set_defaults(func=cmd_build_network)
 
     return parser
 
