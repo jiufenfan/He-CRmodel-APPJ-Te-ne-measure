@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "required": [
+    "template_id",
+    "reaction_id",
+    "reaction_family",
+    "reactants",
+    "products",
+    "placeholders",
+    "rate_payload_ref",
+    "source_record_ref",
+    "review_status",
+    "enabled_by_default"
+  ],
+  "properties": {
+    "template_id": {"type": "string"},
+    "reaction_id": {"type": "string"},
+    "reaction_family": {"type": "string"},
+    "reactants": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "products": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "placeholders": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "rate_payload_ref": {"type": ["string", "null"]},
+    "source_record_ref": {"type": "string"},
+    "review_status": {"type": "string"},
+    "enabled_by_default": {"type": "boolean"},
+    "notes": {"type": "string"}
+  }
+}

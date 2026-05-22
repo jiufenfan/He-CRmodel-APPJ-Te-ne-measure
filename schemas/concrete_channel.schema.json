@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "required": [
+    "channel_id",
+    "template_id",
+    "family",
+    "reactants",
+    "products",
+    "directionality",
+    "rate_law",
+    "rate_origin",
+    "review_status",
+    "enabled_by_default"
+  ],
+  "properties": {
+    "channel_id": {"type": "string"},
+    "template_id": {"type": "string"},
+    "family": {"type": "string"},
+    "reactants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["species_id", "nu"],
+        "properties": {
+          "species_id": {"type": "string"},
+          "nu": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["species_id", "nu"],
+        "properties": {
+          "species_id": {"type": "string"},
+          "nu": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "directionality": {"type": "string"},
+    "energy_order_constraint": {"type": ["string", "null"]},
+    "upper_level_energy_eV": {"type": ["number", "null"]},
+    "lower_level_energy_eV": {"type": ["number", "null"]},
+    "rate_law": {"type": "string"},
+    "rate_payload_ref": {"type": ["string", "null"]},
+    "rate_origin": {"type": "string"},
+    "review_status": {"type": "string"},
+    "enabled_by_default": {"type": "boolean"},
+    "notes": {"type": "string"}
+  }
+}

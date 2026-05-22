@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "required": [
+    "payload_id",
+    "payload_type",
+    "source",
+    "review_status",
+    "enabled_by_default"
+  ],
+  "properties": {
+    "payload_id": {"type": "string"},
+    "payload_type": {"type": "string"},
+    "unit": {"type": ["string", "null"]},
+    "value": {"type": ["number", "null"]},
+    "table_path": {"type": ["string", "null"]},
+    "formula": {"type": ["string", "null"]},
+    "source": {"type": "string"},
+    "review_status": {"type": "string"},
+    "enabled_by_default": {"type": "boolean"},
+    "notes": {"type": "string"}
+  }
+}
