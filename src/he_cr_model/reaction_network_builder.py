@@ -180,6 +180,38 @@ def _expand_spontaneous_radiation_from_lines(template: ReactionTemplate) -> list
                 rate_payload_ref=rate_payload_ref,
             )
         )
+    if expanded:
+        return expanded
+
+    # If NIST staged lines exist but do not yet contain direct LS upper/lower ids,
+    # fall back to the seed line mapping to keep fail-closed expansion auditable.
+    if using_nist_lines:
+        fallback_template_channels: list[ConcreteChannel] = []
+        for line in load_spectral_line_records():
+            upper_id = str(line.get("upper_level_id", "")).strip()
+            lower_id = str(line.get("lower_level_id", "")).strip()
+            if not upper_id or not lower_id:
+                continue
+            rate_payload_ref: str | None = None
+            if line.get("einstein_a_s") not in (None, ""):
+                rate_payload_ref = f"Aki_{line.get('line_id', 'UNKNOWN')}"
+            fallback_template_channels.append(
+                ConcreteChannel(
+                    channel_id=f"{template.reaction_id}_{line.get('line_id', 'LINE')}",
+                    template_id=template.template_id,
+                    family="spontaneous_radiation",
+                    reactants=(StoichTerm(species_id=upper_id, nu=1),),
+                    products=(StoichTerm(species_id=lower_id, nu=1), StoichTerm(species_id="hv", nu=1)),
+                    directionality="upper_to_lower",
+                    rate_law="Aki*n_upper" if rate_payload_ref else "MISSING",
+                    rate_origin="spectral_lines_seed_fallback",
+                    review_status=str(line.get("review_status", template.review_status)),
+                    enabled_by_default=bool(line.get("enabled_by_default", False)),
+                    rate_payload_ref=rate_payload_ref,
+                )
+            )
+        return fallback_template_channels
+
     return expanded
 
 
