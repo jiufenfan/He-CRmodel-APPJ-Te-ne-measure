@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import json
 import re
 from dataclasses import dataclass
+from pathlib import Path
 
 from .data_loader import load_nist_line_records_if_present, load_spectral_line_records, load_table_i_reference_records
 from .network_interfaces import ConcreteChannel, ReactionTemplate, StoichTerm
+from .registries import build_default_species_registry
 from .validation import ValidationIssue, build_solver_ready_channels
 
 
@@ -177,9 +180,10 @@ def _expand_spontaneous_radiation_from_lines(template: ReactionTemplate) -> list
 
 def build_network_from_table_i_reference(
     *,
-    species_ids: set[str],
+    species_ids: set[str] | None = None,
     payload_ids: set[str] | None = None,
 ) -> NetworkBuildResult:
+    species_lookup = species_ids or set(build_default_species_registry().species_ids)
     records = load_table_i_reference_records()
     templates = tuple(_template_from_record(record) for record in records)
     channels_list: list[ConcreteChannel] = []
@@ -189,10 +193,67 @@ def build_network_from_table_i_reference(
             continue
         channels_list.append(_channel_from_template(template, str(record["equation"])))
     channels = tuple(channels_list)
-    solver_ready, issues = build_solver_ready_channels(channels, species_ids=species_ids, payload_ids=payload_ids)
+    solver_ready, issues = build_solver_ready_channels(channels, species_ids=species_lookup, payload_ids=payload_ids)
     return NetworkBuildResult(
         templates=templates,
         network_all=channels,
         network_solver_ready=tuple(solver_ready),
         validation_issues=tuple(issues),
     )
+
+
+def _stoich_term_to_dict(term: StoichTerm) -> dict:
+    return {"species_id": term.species_id, "nu": term.nu}
+
+
+def _channel_to_dict(channel: ConcreteChannel) -> dict:
+    return {
+        "channel_id": channel.channel_id,
+        "template_id": channel.template_id,
+        "family": channel.family,
+        "reactants": [_stoich_term_to_dict(term) for term in channel.reactants],
+        "products": [_stoich_term_to_dict(term) for term in channel.products],
+        "directionality": channel.directionality,
+        "rate_law": channel.rate_law,
+        "rate_origin": channel.rate_origin,
+        "review_status": channel.review_status,
+        "enabled_by_default": channel.enabled_by_default,
+        "energy_order_constraint": channel.energy_order_constraint,
+        "upper_level_energy_eV": channel.upper_level_energy_eV,
+        "lower_level_energy_eV": channel.lower_level_energy_eV,
+        "rate_payload_ref": channel.rate_payload_ref,
+    }
+
+
+def export_network_build_result(path: Path, result: NetworkBuildResult) -> None:
+    payload = {
+        "metadata": {
+            "templates_count": len(result.templates),
+            "network_all_count": len(result.network_all),
+            "network_solver_ready_count": len(result.network_solver_ready),
+            "validation_issues_count": len(result.validation_issues),
+        },
+        "templates": [
+            {
+                "template_id": tpl.template_id,
+                "reaction_id": tpl.reaction_id,
+                "reaction_family": tpl.reaction_family,
+                "reactants": list(tpl.reactants),
+                "products": list(tpl.products),
+                "placeholders": list(tpl.placeholders),
+                "rate_payload_ref": tpl.rate_payload_ref,
+                "source_record_ref": tpl.source_record_ref,
+                "review_status": tpl.review_status,
+                "enabled_by_default": tpl.enabled_by_default,
+            }
+            for tpl in result.templates
+        ],
+        "network_all": [_channel_to_dict(channel) for channel in result.network_all],
+        "network_solver_ready": [_channel_to_dict(channel) for channel in result.network_solver_ready],
+        "validation_issues": [
+            {"item_id": issue.item_id, "severity": issue.severity, "message": issue.message}
+            for issue in result.validation_issues
+        ],
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(payload, indent=2, ensure_ascii=True), encoding="utf-8")

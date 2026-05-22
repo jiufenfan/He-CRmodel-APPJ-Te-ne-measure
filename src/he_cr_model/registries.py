@@ -88,3 +88,21 @@ class SpectroscopicStateRegistry:
             if state.state_id == state_id:
                 return state
         raise KeyError(f"Unknown spectroscopic state_id: {state_id}")
+
+
+def build_default_species_registry() -> SpeciesRegistry:
+    solver_levels = SolverLevelRegistry.from_default_n5()
+    species: list[str] = [
+        "e",
+        "hv",
+        "He",
+        "He+",
+        "He2+",
+        "He2*",
+        "He*",
+        "He(2)",
+    ]
+    for level in solver_levels.levels:
+        species.append(level.level_id)
+        species.append(f"He({level.label})")
+    return SpeciesRegistry.from_ids(species)

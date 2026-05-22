@@ -6,6 +6,7 @@ from he_cr_model.registries import (
     SpeciesRegistry,
     SpectroscopicState,
     SpectroscopicStateRegistry,
+    build_default_species_registry,
 )
 
 
@@ -52,3 +53,12 @@ def test_spectroscopic_state_registry_rejects_unknown_solver_level_reference() -
     ]
     with pytest.raises(ValueError, match="unknown solver level_id"):
         SpectroscopicStateRegistry.from_states(states=states, solver_levels=solver_levels)
+
+
+def test_default_species_registry_contains_core_species_and_ls_terms() -> None:
+    registry = build_default_species_registry()
+    assert registry.has("e")
+    assert registry.has("hv")
+    assert registry.has("He+")
+    assert registry.has("3_3D")
+    assert registry.has("He(3^3D)")

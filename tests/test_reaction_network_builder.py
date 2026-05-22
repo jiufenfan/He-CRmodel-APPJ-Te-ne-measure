@@ -1,4 +1,6 @@
-from he_cr_model.reaction_network_builder import build_network_from_table_i_reference
+import json
+
+from he_cr_model.reaction_network_builder import build_network_from_table_i_reference, export_network_build_result
 
 
 def test_table_i_reference_builds_templates_and_channels() -> None:
@@ -40,3 +42,21 @@ def test_table_i_reference_validation_reports_unknown_placeholder_species() -> N
     )
     messages = {issue.message for issue in result.validation_issues}
     assert "unknown species_id 'He(p)'" in messages
+
+
+def test_table_i_reference_builder_uses_default_species_registry_when_not_provided() -> None:
+    result = build_network_from_table_i_reference()
+    assert result.templates
+    assert result.network_all
+
+
+def test_network_build_result_can_be_exported_to_json(tmp_path) -> None:
+    result = build_network_from_table_i_reference()
+    out = tmp_path / "network_export.json"
+    export_network_build_result(out, result)
+
+    payload = json.loads(out.read_text(encoding="utf-8"))
+    assert payload["metadata"]["network_all_count"] == len(result.network_all)
+    assert payload["metadata"]["network_solver_ready_count"] == len(result.network_solver_ready)
+    assert "network_all" in payload
+    assert "validation_issues" in payload
