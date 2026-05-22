@@ -6,6 +6,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .data_loader import load_nist_line_records_if_present, load_spectral_line_records, load_table_i_reference_records
+from .ls_term_mapping import (
+    JResolvedLineRecord,
+    JStateToLSTermMapping,
+    aggregate_j_resolved_lines_to_ls_transfers,
+)
 from .network_interfaces import ConcreteChannel, ReactionTemplate, StoichTerm
 from .registries import build_default_species_registry
 from .validation import ValidationIssue, build_solver_ready_channels
@@ -178,27 +183,78 @@ def _expand_spontaneous_radiation_from_lines(template: ReactionTemplate) -> list
     return expanded
 
 
+def _expand_spontaneous_radiation_from_aggregated_transfers(
+    template: ReactionTemplate,
+    *,
+    lines: list[JResolvedLineRecord],
+    mappings: list[JStateToLSTermMapping],
+) -> tuple[list[ConcreteChannel], list[ValidationIssue]]:
+    transfers, agg_issues = aggregate_j_resolved_lines_to_ls_transfers(lines, mappings)
+    channels: list[ConcreteChannel] = []
+    issues: list[ValidationIssue] = [
+        ValidationIssue(item_id="LS_AGG", severity="warning", message=message) for message in agg_issues
+    ]
+
+    for transfer in transfers:
+        rate_payload_ref: str | None = None
+        if transfer.aggregated_einstein_a_s is not None:
+            rate_payload_ref = f"Aki_{transfer.transfer_id}"
+
+        channels.append(
+            ConcreteChannel(
+                channel_id=f"{template.reaction_id}_{transfer.transfer_id}",
+                template_id=template.template_id,
+                family="spontaneous_radiation",
+                reactants=(StoichTerm(species_id=transfer.upper_ls_term_level_id, nu=1),),
+                products=(
+                    StoichTerm(species_id=transfer.lower_ls_term_level_id, nu=1),
+                    StoichTerm(species_id="hv", nu=1),
+                ),
+                directionality="upper_to_lower",
+                rate_law="Aki*n_upper" if rate_payload_ref else "MISSING",
+                rate_origin="j_resolved_aggregated_to_ls_term",
+                review_status=transfer.review_status,
+                enabled_by_default=transfer.enabled_by_default,
+                rate_payload_ref=rate_payload_ref,
+            )
+        )
+    return channels, issues
+
+
 def build_network_from_table_i_reference(
     *,
     species_ids: set[str] | None = None,
     payload_ids: set[str] | None = None,
+    j_resolved_lines: list[JResolvedLineRecord] | None = None,
+    j_state_mappings: list[JStateToLSTermMapping] | None = None,
 ) -> NetworkBuildResult:
     species_lookup = species_ids or set(build_default_species_registry().species_ids)
     records = load_table_i_reference_records()
     templates = tuple(_template_from_record(record) for record in records)
     channels_list: list[ConcreteChannel] = []
+    pre_validation_issues: list[ValidationIssue] = []
     for template, record in zip(templates, records):
         if template.reaction_family == "spontaneous_radiation":
-            channels_list.extend(_expand_spontaneous_radiation_from_lines(template))
+            if j_resolved_lines is not None and j_state_mappings is not None:
+                aggregated_channels, agg_issues = _expand_spontaneous_radiation_from_aggregated_transfers(
+                    template,
+                    lines=j_resolved_lines,
+                    mappings=j_state_mappings,
+                )
+                channels_list.extend(aggregated_channels)
+                pre_validation_issues.extend(agg_issues)
+            else:
+                channels_list.extend(_expand_spontaneous_radiation_from_lines(template))
             continue
         channels_list.append(_channel_from_template(template, str(record["equation"])))
     channels = tuple(channels_list)
     solver_ready, issues = build_solver_ready_channels(channels, species_ids=species_lookup, payload_ids=payload_ids)
+    issues = tuple([*pre_validation_issues, *issues])
     return NetworkBuildResult(
         templates=templates,
         network_all=channels,
         network_solver_ready=tuple(solver_ready),
-        validation_issues=tuple(issues),
+        validation_issues=issues,
     )
 
 
