@@ -1,0 +1,12 @@
+{
+  "source": "NIST ASD",
+  "query_kind": "levels",
+  "species": "He I",
+  "download_date": "TODO_SOURCE",
+  "doi_or_url": "https://www.nist.gov/pml/atomic-spectra-database",
+  "as_version_or_citation": "TODO_SOURCE",
+  "query_url": "https://physics.nist.gov/cgi-bin/ASD/energy1.pl?de=0&spectrum=He+I&submit=Retrieve+Data&units=0&format=0&output=0&page_size=15&multiplet_ordered=0&conf_out=on&term_out=on&level_out=on&unc_out=1&j_out=on&lande_out=on&perc_out=on&biblio=on&temp=",
+  "raw_export_file": "He-levels.txt",
+  "notes": "Populate download_date and ASD citation/version from the export page or NIST ASD citation guidance."
+}
+

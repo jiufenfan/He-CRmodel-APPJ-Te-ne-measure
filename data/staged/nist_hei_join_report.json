@@ -1,0 +1,14 @@
+{
+  "records": [
+    {
+      "ei_gt_ek_count": 0,
+      "ei_le_ek_count": 2300,
+      "energy_unit_normalized": "eV",
+      "interpretation": "for this export Ei corresponds to lower-level energy and Ek to upper-level energy",
+      "levels_count": 843,
+      "lines_count": 2300,
+      "matched_upper_lower_by_conf_term_j": 2300,
+      "unmatched_examples": []
+    }
+  ]
+}

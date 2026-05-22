@@ -46,3 +46,18 @@ def load_nist_line_records_if_present(base_dir: Path | None = None) -> list[dict
     if nist_lines_path.exists():
         return load_json_records(nist_lines_path)
     return []
+
+
+def load_nist_hei_levels_staged_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
+    root = base_dir or staged_data_dir()
+    return load_json_records(root / "nist_hei_levels.json")
+
+
+def load_nist_hei_lines_staged_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
+    root = base_dir or staged_data_dir()
+    return load_json_records(root / "nist_hei_lines.json")
+
+
+def load_nist_hei_join_report_staged_records(base_dir: Path | None = None) -> list[dict[str, Any]]:
+    root = base_dir or staged_data_dir()
+    return load_json_records(root / "nist_hei_join_report.json")
